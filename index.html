@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Uncle Joe and the Key of Product</title>
+  <link rel="icon" type="image/png" href="https://limkimsze-maker.github.io/favicon.png" />
+  <link rel="apple-touch-icon" href="https://limkimsze-maker.github.io/favicon.png" />
+  <style>
+    :root{
+      --gold:#ffd46a;
+      --deep-gold:#b9781d;
+      --sand:#f4d38a;
+      --dark:#130b07;
+      --brown:#3b1f10;
+      --amber:#ff9f2f;
+      --glow:rgba(255,195,77,.55);
+    }
+
+    *{box-sizing:border-box}
+
+    html,body{
+      width:100%;
+      min-height:100%;
+      margin:0;
+      font-family:"Trebuchet MS", "Segoe UI", Arial, sans-serif;
+      color:#fff8df;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255,196,77,.2), transparent 32%),
+        radial-gradient(circle at 12% 10%, rgba(255,147,44,.16), transparent 25%),
+        linear-gradient(180deg,#251107 0%, #140905 38%, #070403 100%);
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(90deg, rgba(255,218,122,.05) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(255,218,122,.045) 1px, transparent 1px);
+      background-size:54px 54px;
+      mask-image:linear-gradient(to bottom, rgba(0,0,0,.75), transparent 80%);
+    }
+
+    .page{
+      min-height:100svh;
+      display:grid;
+      place-items:center;
+      padding:28px 18px 22px;
+      position:relative;
+    }
+
+    .sun-disc{
+      position:absolute;
+      width:330px;
+      height:330px;
+      top:-125px;
+      right:-95px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(255,212,106,.65), rgba(255,160,48,.12) 55%, transparent 68%);
+      filter:blur(.2px);
+      opacity:.9;
+    }
+
+    .pyramid-left,
+    .pyramid-right{
+      position:fixed;
+      bottom:0;
+      width:42vw;
+      max-width:560px;
+      aspect-ratio:1.6/1;
+      background:linear-gradient(135deg, rgba(216,150,52,.34), rgba(93,48,16,.08));
+      clip-path:polygon(50% 0,100% 100%,0 100%);
+      opacity:.46;
+      pointer-events:none;
+    }
+    .pyramid-left{left:-14vw}
+    .pyramid-right{right:-16vw; transform:scaleX(-1)}
+
+    .card{
+      width:min(1120px, 100%);
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:24px;
+      align-items:stretch;
+      position:relative;
+      z-index:2;
+      padding:18px;
+      border:2px solid rgba(255,212,106,.55);
+      border-radius:34px;
+      background:
+        linear-gradient(135deg, rgba(255,212,106,.18), rgba(255,255,255,.045) 28%, rgba(0,0,0,.22)),
+        rgba(39,21,11,.88);
+      box-shadow:0 28px 80px rgba(0,0,0,.5), 0 0 42px rgba(255,166,39,.18), inset 0 0 0 1px rgba(255,255,255,.1);
+      backdrop-filter:blur(8px);
+    }
+
+    .hero{
+      min-height:520px;
+      border-radius:26px;
+      overflow:hidden;
+      position:relative;
+      border:2px solid rgba(255,225,145,.45);
+      background:#241107;
+      box-shadow:inset 0 0 40px rgba(0,0,0,.45);
+    }
+
+    .hero img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      filter:saturate(1.08) contrast(1.05);
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, transparent 45%, rgba(0,0,0,.46) 100%);
+      pointer-events:none;
+    }
+
+    .badge{
+      position:absolute;
+      left:20px;
+      top:20px;
+      z-index:3;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:rgba(17,8,4,.78);
+      border:1px solid rgba(255,212,106,.58);
+      color:#ffe8a6;
+      font-weight:900;
+      letter-spacing:.4px;
+      box-shadow:0 0 20px rgba(255,183,56,.22);
+    }
+
+    .content{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      padding:26px 22px;
+      position:relative;
+    }
+
+    .small-title{
+      margin:0 0 10px;
+      color:#ffd46a;
+      font-size:clamp(15px, 1.5vw, 19px);
+      font-weight:900;
+      letter-spacing:1.8px;
+      text-transform:uppercase;
+    }
+
+    h1{
+      margin:0;
+      font-size:clamp(38px, 5.2vw, 72px);
+      line-height:.95;
+      letter-spacing:-1.5px;
+      text-shadow:0 5px 0 rgba(76,35,8,.85), 0 0 26px rgba(255,188,67,.35);
+    }
+
+    .key-word{
+      color:var(--gold);
+      display:block;
+    }
+
+    .subtitle{
+      margin:18px 0 22px;
+      font-size:clamp(17px, 1.8vw, 22px);
+      line-height:1.45;
+      color:#fff1c9;
+      max-width:560px;
+    }
+
+    .choice-panel{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+      margin-top:8px;
+    }
+
+    .launch{
+      position:relative;
+      isolation:isolate;
+      min-height:176px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap:14px;
+      padding:20px;
+      border-radius:24px;
+      color:#271203;
+      text-decoration:none;
+      background:
+        linear-gradient(135deg, #ffe7a4 0%, #ffc84e 45%, #e58a24 100%);
+      border:2px solid rgba(255,244,198,.8);
+      box-shadow:0 14px 28px rgba(0,0,0,.28), 0 0 32px rgba(255,184,48,.25), inset 0 2px 0 rgba(255,255,255,.46);
+      transform:translateY(0);
+      transition:transform .16s ease, filter .16s ease, box-shadow .16s ease;
+      overflow:hidden;
+    }
+
+    .launch::before{
+      content:"";
+      position:absolute;
+      inset:-40% -20%;
+      background:linear-gradient(110deg, transparent 0 38%, rgba(255,255,255,.35) 48%, transparent 58% 100%);
+      transform:translateX(-70%);
+      transition:transform .45s ease;
+      z-index:-1;
+    }
+
+    .launch:hover,
+    .launch:focus-visible{
+      transform:translateY(-5px) scale(1.01);
+      filter:saturate(1.08);
+      box-shadow:0 22px 42px rgba(0,0,0,.34), 0 0 44px rgba(255,200,70,.35), inset 0 2px 0 rgba(255,255,255,.58);
+      outline:none;
+    }
+
+    .launch:hover::before,
+    .launch:focus-visible::before{transform:translateX(58%)}
+
+    .launch.mobile{
+      background:linear-gradient(135deg, #ffe8a8 0%, #ffb643 42%, #cf641f 100%);
+    }
+
+    .icon{
+      width:56px;
+      height:56px;
+      display:grid;
+      place-items:center;
+      border-radius:18px;
+      background:rgba(48,20,4,.16);
+      font-size:32px;
+      box-shadow:inset 0 0 0 1px rgba(80,34,4,.18);
+    }
+
+    .launch h2{
+      margin:0;
+      font-size:clamp(25px, 2.8vw, 34px);
+      line-height:1;
+      color:#261004;
+      text-shadow:0 1px 0 rgba(255,255,255,.3);
+    }
+
+    .launch p{
+      margin:7px 0 0;
+      font-size:15px;
+      line-height:1.35;
+      font-weight:700;
+      color:#442007;
+    }
+
+    .go-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-weight:1000;
+      letter-spacing:.3px;
+      color:#1f0d02;
+    }
+
+    .arrow{
+      width:38px;
+      height:38px;
+      display:grid;
+      place-items:center;
+      border-radius:999px;
+      background:rgba(56,23,3,.18);
+      font-size:24px;
+    }
+
+    .note{
+      margin:18px 0 0;
+      padding:13px 15px;
+      border-radius:18px;
+      border:1px solid rgba(255,212,106,.35);
+      background:rgba(255,212,106,.09);
+      color:#ffe8ad;
+      font-size:14px;
+      line-height:1.45;
+    }
+
+    .credit{
+      position:fixed;
+      left:12px;
+      right:12px;
+      bottom:8px;
+      text-align:center;
+      color:#fff3c8;
+      font-size:13px;
+      font-weight:800;
+      text-shadow:0 2px 3px #000, 0 0 10px #000;
+      z-index:5;
+      pointer-events:none;
+    }
+
+    @media (max-width: 880px){
+      .page{padding:16px 12px 32px; align-items:start}
+      .card{grid-template-columns:1fr; padding:12px; border-radius:26px}
+      .hero{min-height:42svh; border-radius:20px}
+      .content{padding:14px 10px 12px}
+      .choice-panel{grid-template-columns:1fr; gap:12px}
+      .launch{min-height:136px; border-radius:20px}
+      .subtitle{margin:14px 0 16px}
+      .badge{left:12px; top:12px; font-size:13px; padding:8px 10px}
+      .credit{font-size:12px}
+    }
+
+    @media (max-width: 430px){
+      h1{font-size:40px}
+      .hero{min-height:34svh}
+      .launch{padding:16px}
+      .icon{width:48px; height:48px; font-size:27px}
+    }
+  </style>
+</head>
+<body>
+  <div class="sun-disc" aria-hidden="true"></div>
+  <div class="pyramid-left" aria-hidden="true"></div>
+  <div class="pyramid-right" aria-hidden="true"></div>
+
+  <main class="page">
+    <section class="card" aria-labelledby="page-title">
+      <div class="hero">
+        <div class="badge">𓂀 Multiplication Adventure</div>
+        <img
+          src="https://raw.githubusercontent.com/limkimsze-maker/P3-Uncle-Joe-and-the-Key-of-Product-desktop/d9cd58decda9ca2c07b405d2434bc7fb2d4f6fa6/intro.png"
+          alt="Uncle Joe and the Key of Product cover page"
+        />
+      </div>
+
+      <div class="content">
+        <p class="small-title">Choose your version</p>
+        <h1 id="page-title">Uncle Joe and the <span class="key-word">Key of Product</span></h1>
+        <p class="subtitle">
+          Enter the Egyptian pyramid, solve multiplication challenges, unlock the Key of Product, and help Uncle Joe escape.
+        </p>
+
+        <div class="choice-panel" aria-label="Game version choices">
+          <a class="launch desktop" href="https://limkimsze-maker.github.io/P3-Uncle-Joe-and-the-Key-of-Product-desktop/" target="_self" aria-label="Launch desktop version">
+            <div>
+              <div class="icon" aria-hidden="true">🖥️</div>
+              <h2>Desktop</h2>
+              <p>Best for laptop, Chromebook, desktop, keyboard, mouse, and full-screen play.</p>
+            </div>
+            <div class="go-row"><span>Launch desktop version</span><span class="arrow">›</span></div>
+          </a>
+
+          <a class="launch mobile" href="https://limkimsze-maker.github.io/P3-Uncle-Joe-and-the-Key-of-Product-Mobile/" target="_self" aria-label="Launch mobile version">
+            <div>
+              <div class="icon" aria-hidden="true">📱</div>
+              <h2>Mobile</h2>
+              <p>Best for phones, tablets, touch controls, and pupils playing without a keyboard.</p>
+            </div>
+            <div class="go-row"><span>Launch mobile version</span><span class="arrow">›</span></div>
+          </a>
+        </div>
+
+        <p class="note">
+          Tip: Use the desktop version when pupils have a keyboard. Use the mobile version when pupils are playing on tablets or phones.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="credit">Designed by Lim Kim Sze © 2026</footer>
+
+  <script>
+    // Small touch-friendly safeguard: prevent accidental zoom from rapid taps on some mobile browsers.
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(event){
+      const now = Date.now();
+      if(now - lastTouchEnd <= 300) event.preventDefault();
+      lastTouchEnd = now;
+    }, {passive:false});
+  </script>
+</body>
+</html>
